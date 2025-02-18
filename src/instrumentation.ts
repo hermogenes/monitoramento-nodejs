@@ -5,7 +5,7 @@ import {getNodeAutoInstrumentations} from '@opentelemetry/auto-instrumentations-
 import defaultMetrics from 'opentelemetry-node-metrics'
 
 if (typeof module.register === 'function') {
-  module.register("@opentelemetry/instrumentation/hook.mjs", import.meta.url);
+  module.register('@opentelemetry/instrumentation/hook.mjs', import.meta.url)
 }
 
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO)

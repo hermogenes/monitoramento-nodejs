@@ -6,14 +6,9 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "outDir": "dist",
-    "types": [
-      "node"
-    ],
-    "typeRoots": [
-      "node_modules/@types",
-      "./types"
-    ],
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types", "./types"],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx",
+    "jsxImportSource": "hono/jsx"
   }
 }

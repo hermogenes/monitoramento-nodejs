@@ -3,7 +3,10 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch --import './src/instrumentation' --env-file=.env src/index.ts"
+    "dev": "tsx watch --import './src/instrumentation' --env-file=.env src/index.ts",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate": "drizzle-kit push",
+    "db:seed": "tsx ./src/db/seed.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
@@ -13,15 +16,17 @@
     "@opentelemetry/instrumentation": "^0.57.2",
     "@opentelemetry/sdk-metrics": "^1.30.1",
     "@opentelemetry/sdk-node": "^0.57.2",
-    "@opentelemetry/sdk-trace-node": "^1.30.1",
-    "@opentelemetry/semantic-conventions": "^1.30.0",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.3",
     "hono": "^4.7.1",
-    "import-in-the-middle": "^1.13.0",
-    "opentelemetry-node-metrics": "^3.0.0"
+    "opentelemetry-node-metrics": "^3.0.0",
+    "pg": "^8.13.3"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/node": "^20.11.17",
+    "@types/pg": "^8.11.11",
+    "drizzle-kit": "^0.30.4",
     "tsx": "^4.7.1",
     "typescript": "^5.7.3"
   }
