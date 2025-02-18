@@ -23,3 +23,9 @@ const sdk = new NodeSDK({
 sdk.start()
 
 defaultMetrics(metrics.getMeterProvider())
+
+process.on('SIGINT', () => {
+  sdk.shutdown().then(() => {
+    process.exit()
+  })
+})
