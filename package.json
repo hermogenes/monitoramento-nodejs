@@ -1,0 +1,28 @@
+{
+  "name": "product-review-api",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch --import './src/instrumentation' --env-file=.env src/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.8",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.56.0",
+    "@opentelemetry/core": "^1.30.1",
+    "@opentelemetry/instrumentation": "^0.57.2",
+    "@opentelemetry/sdk-metrics": "^1.30.1",
+    "@opentelemetry/sdk-node": "^0.57.2",
+    "@opentelemetry/sdk-trace-node": "^1.30.1",
+    "@opentelemetry/semantic-conventions": "^1.30.0",
+    "hono": "^4.7.1",
+    "import-in-the-middle": "^1.13.0",
+    "opentelemetry-node-metrics": "^3.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1",
+    "typescript": "^5.7.3"
+  }
+}

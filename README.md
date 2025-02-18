@@ -1,2 +1,8 @@
-# monitoramento-nodejs
-Repositório exemplo para monitoramento de aplicações Node usando Grafana e Prometheus
+```
+npm install
+npm run dev
+```
+
+```
+open http://localhost:3000
+```

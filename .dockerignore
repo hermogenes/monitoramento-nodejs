@@ -1,0 +1,8 @@
+node_modules
+.gitignore
+compose.yml
+.docker
+README.md
+LICENSE
+.dockerignore
+dist
