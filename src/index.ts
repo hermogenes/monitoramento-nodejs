@@ -8,6 +8,7 @@ serve(
     hostname: '0.0.0.0'
   },
   (info) => {
-    console.log(`Server is running on http://${info.address}:${info.port}`)
+    console.log(`🌐 Server is running on http://${info.address}:${info.port}`)
+    console.log('📈 Check metrics at http://0.0.0.0:9464/metrics')
   }
 )
