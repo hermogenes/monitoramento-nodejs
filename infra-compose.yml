@@ -1,7 +1,7 @@
 name: monitoramento-nodejs-infra
 services:
   postgres:
-    image: postgres:17
+    build: ./.docker/postgres
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: pgpass
@@ -12,13 +12,12 @@ services:
     volumes:
       - './.docker/postgres/:/docker-entrypoint-initdb.d/'
       - postgres_data:/var/lib/postgresql/data
-  redis:
-    image: redis:7
-    command: redis-server --requirepass redispass
-    ports:
-      - 6379:6379
-    volumes:
-      - redis_data:/data
+    # cap_add:
+    #   - NET_ADMIN
+    # post_start:
+    #   - command: tc qdisc add dev eth0 root netem delay 80ms 20ms distribution normal
+    #     user: root
+    #     privileged: true
   otel-lgtm:
     image: grafana/otel-lgtm:0.8.5
     volumes:
@@ -33,10 +32,8 @@ services:
       - 3000:3000
       - 4317:4317
       - 4318:4318
-
 volumes:
   postgres_data:
-  redis_data:
   grafana_data:
   prometheus_data:
   loki_data:

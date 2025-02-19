@@ -20,10 +20,12 @@
     "drizzle-orm": "^0.39.3",
     "hono": "^4.7.1",
     "opentelemetry-node-metrics": "^3.0.0",
-    "pg": "^8.13.3"
+    "pg": "^8.13.3",
+    "unleash-client": "^6.4.5"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@types/k6": "^0.57.0",
     "@types/node": "^20.11.17",
     "@types/pg": "^8.11.11",
     "drizzle-kit": "^0.30.4",
