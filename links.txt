@@ -1,0 +1,4 @@
+https://quickwit.io/blog/quickwit-grafana-plugin-0.3
+https://signoz.io/docs/userguide/custom-apm-dashboards-alerts/
+https://grafana.com/docs/grafana/latest/fundamentals/dashboards-overview/
+https://www.reddit.com/r/homelab/comments/ntqtts/after_one_week_of_work_i_am_finally_happy_with_my/#lightbox
