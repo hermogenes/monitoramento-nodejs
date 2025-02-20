@@ -1,0 +1,37 @@
+{
+  "$schema": "https://flagd.dev/schema/v0/flags.json",
+  "flags": {
+    "simulate-server-error": {
+      "state": "ENABLED",
+      "variants": {
+        "on": true,
+        "off": false
+      },
+      "defaultVariant": "off",
+      "targeting": {
+        "fractional": [["on", 0], ["off", 100]]
+      }
+    },
+    "simulate-server-latency": {
+      "state": "ENABLED",
+      "variants": {
+        "on-050-100": {
+          "latency": [50, 100]
+        },
+        "on-025-050": {
+          "latency": [25, 50]
+        },
+        "on-001-025": {
+          "latency": [1, 25]
+        },
+        "off": {
+          "latency": [0, 0]
+        }
+      },
+      "defaultVariant": "off",
+      "targeting": {
+        "fractional": [["on-050-100", 0], ["on-025-050", 0], ["on-001-025", 20], ["off", 80]]
+      }
+    }
+  }
+}

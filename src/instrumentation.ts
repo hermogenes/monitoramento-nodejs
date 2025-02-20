@@ -24,7 +24,7 @@ const sdk = new NodeSDK({
     new FsInstrumentation(),
     new GrpcInstrumentation(),
     new HttpInstrumentation({
-      ignoreIncomingRequestHook: (req) => req.headers.host?.endsWith(':3001') !== true,
+      ignoreIncomingRequestHook: (req) => req.headers.host?.endsWith(':3001') !== true
     }),
     new NetInstrumentation(),
     new PgInstrumentation(),

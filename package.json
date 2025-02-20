@@ -9,7 +9,11 @@
     "db:seed": "tsx ./src/db/seed.ts"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.12.6",
     "@hono/node-server": "^1.13.8",
+    "@openfeature/flagd-core": "^1.0.0",
+    "@openfeature/flagd-provider": "^0.13.3",
+    "@openfeature/server-sdk": "^1.17.1",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/core": "^1.30.1",
     "@opentelemetry/instrumentation": "^0.57.2",

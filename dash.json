@@ -29,8 +29,11 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "fixedColor": "transparent",
+            "mode": "fixed"
           },
+          "decimals": 0,
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -38,39 +41,47 @@
               {
                 "color": "green",
                 "value": null
-              },
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Throughput"
+            },
+            "properties": [
               {
-                "color": "red",
-                "value": 80
+                "id": "unit",
+                "value": "reqps"
               }
             ]
           }
-        },
-        "overrides": []
+        ]
       },
       "gridPos": {
         "h": 6,
-        "w": 2,
+        "w": 4,
         "x": 0,
         "y": 0
       },
-      "id": 18,
+      "id": 22,
       "options": {
-        "colorMode": "none",
+        "colorMode": "background_solid",
         "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "percentChangeColorMode": "same_as_value",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": true
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
         },
         "showPercentChange": false,
-        "textMode": "value",
-        "wideLayout": true
+        "textMode": "value_and_name",
+        "wideLayout": false
       },
       "pluginVersion": "11.5.1",
       "targets": [
@@ -81,28 +92,28 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "target_info{job=\"$service\"}",
-          "format": "table",
+          "expr": "sum(nodejs_active_handles{service_name=\"$service\", type=\"Socket\"})",
+          "hide": false,
           "instant": true,
-          "legendFormat": "{{process_runtime_description}} {{process_runtime_version}}",
+          "legendFormat": "Active",
           "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Runtime",
-      "transformations": [
+          "refId": "Active"
+        },
         {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "process_runtime_description",
-                "process_runtime_version"
-              ]
-            }
-          }
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(http_server_duration_milliseconds_count{service_name=\"$service\"}[$__range]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Total",
+          "range": true,
+          "refId": "Total"
         }
       ],
+      "title": "# Requests",
       "transparent": true,
       "type": "stat"
     },
@@ -114,7 +125,8 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "fixedColor": "transparent",
+            "mode": "fixed"
           },
           "decimals": 0,
           "fieldMinMax": false,
@@ -146,26 +158,24 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 6,
-        "x": 2,
+        "w": 3,
+        "x": 4,
         "y": 0
       },
-      "id": 7,
+      "id": 20,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "vertical",
-        "percentChangeColorMode": "same_as_value",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "value_and_name",
+        "textMode": "value",
         "wideLayout": false
       },
       "pluginVersion": "11.5.1",
@@ -176,40 +186,16 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(nodejs_active_handles{service_name=\"$service\", type=\"Socket\"})",
-          "instant": false,
-          "legendFormat": "Active",
-          "range": true,
-          "refId": "Active"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(increase(http_server_duration_milliseconds_count{service_name=\"$service\"}[$__range]))",
+          "exemplar": false,
+          "expr": "sum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[5m]))",
           "hide": false,
-          "instant": false,
-          "legendFormat": "Total",
-          "range": true,
-          "refId": "Total"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[2m]))",
-          "hide": false,
-          "instant": false,
+          "instant": true,
           "legendFormat": "Throughput",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
-      "title": "Requests",
+      "title": "Throughput",
       "transparent": true,
       "type": "stat"
     },
@@ -249,24 +235,24 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 8,
+        "x": 7,
         "y": 0
       },
       "id": 3,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": false,
-        "sizing": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "11.5.1",
       "targets": [
@@ -277,16 +263,16 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\", service_name=\"$service\"}[2m]) OR on() vector(0))\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[2m]) OR on() vector(1))\n* 100",
-          "instant": false,
+          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\", service_name=\"$service\"}[5m]))*100\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[5m]))",
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
-      "title": "Success rate",
+      "title": "Success rate (last 5m)",
       "transparent": true,
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": {
@@ -298,7 +284,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 2,
+          "decimals": 0,
           "mappings": [],
           "noValue": "0",
           "thresholds": {
@@ -324,25 +310,23 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
-        "x": 12,
+        "w": 5,
+        "x": 11,
         "y": 0
       },
       "id": 1,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
+        "colorMode": "background",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "inverted",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
-        "showPercentChange": true,
+        "showPercentChange": false,
         "textMode": "value",
         "wideLayout": false
       },
@@ -354,14 +338,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum(rate(http_server_duration_milliseconds_bucket{service_name=\"$service\"}[2m])) by (le))",
-          "instant": false,
+          "exemplar": false,
+          "expr": "histogram_quantile(0.99, sum(rate(http_server_duration_milliseconds_bucket{service_name=\"$service\"}[5m])) by (le))",
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
-      "title": "Latency (p99)",
+      "title": "p99 Latency (last 5m)",
       "transparent": true,
       "type": "stat"
     },
@@ -407,19 +392,19 @@
       },
       "id": 5,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "11.5.1",
       "targets": [
@@ -429,16 +414,17 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
+          "exemplar": false,
           "expr": "irate(process_cpu_seconds_total{service_name=\"$service\"}[2m])*100",
-          "instant": false,
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
       "title": "CPU",
       "transparent": true,
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": {
@@ -482,88 +468,18 @@
       },
       "id": 6,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true,
-        "sizing": "auto"
-      },
-      "pluginVersion": "11.5.1",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "process_resident_memory_bytes{service_name=\"$service\"} / 1024 / 1024",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Memory",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 2,
-        "x": 0,
-        "y": 6
-      },
-      "id": 19,
-      "options": {
-        "colorMode": "none",
+        "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
-        "orientation": "horizontal",
+        "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "value",
+        "textMode": "auto",
         "wideLayout": true
       },
       "pluginVersion": "11.5.1",
@@ -575,15 +491,14 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count(count by (host_id) (target_info{job=\"$service\"}))",
-          "format": "time_series",
-          "instant": false,
+          "expr": "process_resident_memory_bytes{service_name=\"$service\"} / 1024 / 1024",
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
-      "title": "Replicas",
+      "title": "Memory",
       "transparent": true,
       "type": "stat"
     },
@@ -651,8 +566,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 2,
+        "w": 7,
+        "x": 0,
         "y": 6
       },
       "id": 14,
@@ -704,7 +619,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": 100,
+            "axisSoftMax": 1,
             "axisSoftMin": 0,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -730,7 +645,7 @@
             "spanNulls": true,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -746,7 +661,7 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percentunit"
         },
         "overrides": [
           {
@@ -784,17 +699,13 @@
       "gridPos": {
         "h": 8,
         "w": 4,
-        "x": 8,
+        "x": 7,
         "y": 6
       },
       "id": 16,
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "min",
-            "max"
-          ],
+          "calcs": ["lastNotNull", "min", "max"],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": false
@@ -813,7 +724,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code=~\"5..\", service_name=\"$service\"}[2m]) OR on() vector(0))\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[2m]) OR on() vector(1))\n* 100",
+          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code=~\"5..\", service_name=\"$service\"}[2m]))\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[2m]))",
           "instant": false,
           "legendFormat": "Error",
           "range": true,
@@ -825,7 +736,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\", service_name=\"$service\"}[2m]) OR on() vector(1))\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[2m]) OR on() vector(1))\n* 100",
+          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\", service_name=\"$service\"}[2m]))\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[2m]))",
           "hide": false,
           "instant": false,
           "legendFormat": "Success",
@@ -853,7 +764,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "axisSoftMax": 100,
+            "axisSoftMax": 250,
             "axisSoftMin": 0,
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -909,8 +820,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 4,
-        "x": 12,
+        "w": 5,
+        "x": 11,
         "y": 6
       },
       "id": 13,
@@ -1362,9 +1273,7 @@
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "frameIndex": 0,
@@ -1430,21 +1339,15 @@
           "options": {
             "fields": {
               "Value #error_rate": {
-                "aggregations": [
-                  "mean"
-                ],
+                "aggregations": ["mean"],
                 "operation": "aggregate"
               },
               "Value #p99_latency": {
-                "aggregations": [
-                  "mean"
-                ],
+                "aggregations": ["mean"],
                 "operation": "aggregate"
               },
               "Value #throughput": {
-                "aggregations": [
-                  "mean"
-                ],
+                "aggregations": ["mean"],
                 "operation": "aggregate"
               },
               "http_method": {
@@ -1522,15 +1425,11 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "values": [
-            "percent"
-          ]
+          "values": ["percent"]
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -1573,7 +1472,7 @@
     }
   ],
   "preload": false,
-  "refresh": "",
+  "refresh": "10s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
@@ -1604,13 +1503,13 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Main dashboard",
   "uid": "aedj0gc1i8hdsb",
-  "version": 46,
+  "version": 30,
   "weekStart": ""
 }

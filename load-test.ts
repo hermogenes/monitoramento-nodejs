@@ -42,20 +42,20 @@ export function readOnlyTest() {
 
   check(res, {'status is 200': (res) => res.status === 200})
 
-  const products = res.json() as {id: number}[]
+  const products = res.status === 200 ? (res.json() as {id: number}[]) : []
 
   for (const product of products) {
-    const res = http.get(`http://localhost:3001/products/${product.id}`, {
+    const resProduct = http.get(`http://localhost:3001/products/${product.id}`, {
       tags: {name: 'get-product-by-id'}
     })
 
-    check(res, {'status is 200': (res) => res.status === 200})
+    check(resProduct, {'status is 200': (res) => res.status === 200})
 
     const resReviews = http.get(`http://localhost:3001/products/${product.id}/reviews`, {
       tags: {name: 'list-reviews'}
     })
 
-    check(res, {'status is 200': (res) => res.status === 200})
+    check(resReviews, {'status is 200': (res) => res.status === 200})
   }
   sleep(1)
 }

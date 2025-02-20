@@ -1,5 +1,13 @@
 name: monitoramento-nodejs-infra
 services:
+  flagd:
+    image: ghcr.io/open-feature/flagd:latest
+    command: start --uri file:./etc/flagd/simulation.flagd.json
+    volumes:
+      - ./flags:/etc/flagd
+    ports:
+      - 8013:8013
+      - 8015:8015
   postgres:
     build: ./.docker/postgres
     restart: unless-stopped
@@ -12,12 +20,12 @@ services:
     volumes:
       - './.docker/postgres/:/docker-entrypoint-initdb.d/'
       - postgres_data:/var/lib/postgresql/data
-    # cap_add:
-    #   - NET_ADMIN
-    # post_start:
-    #   - command: tc qdisc add dev eth0 root netem delay 80ms 20ms distribution normal
-    #     user: root
-    #     privileged: true
+    cap_add:
+      - NET_ADMIN
+    post_start:
+      - command: tc qdisc add dev eth0 root netem delay 40ms 20ms distribution normal
+        user: root
+        privileged: true
   otel-lgtm:
     image: grafana/otel-lgtm:0.8.5
     volumes:
