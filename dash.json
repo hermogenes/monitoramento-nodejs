@@ -187,7 +187,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[5m]))",
+          "expr": "sum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[5m]) or vector(0))",
           "hide": false,
           "instant": true,
           "legendFormat": "Throughput",
@@ -209,14 +209,19 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 0,
           "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "transparent",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 0
               },
               {
                 "color": "yellow",
@@ -263,7 +268,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\", service_name=\"$service\"}[5m]))*100\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[5m]))",
+          "expr": "sum(rate(http_server_duration_milliseconds_count{http_status_code!~\"5..\", service_name=\"$service\"}[5m]) or vector(0))*100\n/\nsum(rate(http_server_duration_milliseconds_count{service_name=\"$service\"}[5m]))",
           "instant": true,
           "legendFormat": "__auto",
           "range": false,
@@ -286,13 +291,16 @@
           },
           "decimals": 0,
           "mappings": [],
-          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "transparent",
                 "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "#EAB839",
@@ -360,15 +368,19 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 2,
+          "decimals": 0,
           "mappings": [],
           "max": 120,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "transparent",
                 "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "#EAB839",
@@ -443,8 +455,12 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "transparent",
                 "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
               },
               {
                 "color": "#EAB839",
@@ -1510,6 +1526,6 @@
   "timezone": "browser",
   "title": "Main dashboard",
   "uid": "aedj0gc1i8hdsb",
-  "version": 30,
+  "version": 37,
   "weekStart": ""
 }
